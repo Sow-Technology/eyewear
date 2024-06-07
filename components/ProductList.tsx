@@ -1,5 +1,7 @@
 import { getProducts } from "@/lib/actions/actions";
 import ProductCard from "./ProductCard";
+import { CarouselItem } from "./ui/carousel";
+import { Card, CardContent } from "./ui/card";
 
 const ProductList = async () => {
   // const products = await getProducts();
@@ -99,8 +101,16 @@ const ProductList = async () => {
         <p className="text-body-bold">No products found</p>
       ) : (
         <div className="flex flex-wrap justify-center gap-16">
-          {products.map((product: ProductType) => (
-            <ProductCard key={product._id} product={product} />
+          {products.map((product, index) => (
+            <div key={index} className="max-w-xs">
+              <div className="p-1">
+                <Card>
+                  <CardContent className="flex aspect-square items-center justify-center p-6">
+                    <ProductCard key={product._id} product={product} />
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
           ))}
         </div>
       )}
