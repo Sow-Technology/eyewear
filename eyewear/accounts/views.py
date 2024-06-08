@@ -17,10 +17,10 @@ def register(request):
             return Response({'error': 'Username, email, and password are required.'}, status=status.HTTP_400_BAD_REQUEST)
         
         if User.objects.filter(username=username).exists():
-            return Response({'error': 'Username is already taken.'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'Username is already taken.'}, status=401)  
         
         if User.objects.filter(email=email).exists():
-            return Response({'error': 'Email is already registered.'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'Email is already registered.'}, status=402)  
         
         try:
             user = User.objects.create_user(username=username, email=email, password=password)

@@ -27,11 +27,11 @@ def product_list(request):
             product_list.append({
                 'product_name': product.product_name,
                 'slug': product.slug,
-                'category': product.category.id,  # Assuming you want to return the category ID
+                'category': product.category.category_name,  
                 'price': product.price,
                 'product_description': product.product_desription,
-                'color_variant': list(product.color_variant.values_list('id', flat=True)),  # Assuming you want to return the color variant IDs
-                'size_variant': list(product.size_variant.values_list('id', flat=True)),  # Assuming you want to return the size variant IDs
+                'color_variant': list(product.color_variant.values_list('color_name', flat=True)),  
+                'size_variant': list(product.size_variant.values_list('size_name', flat=True)),  
                 'created_at': product.created_at.isoformat(),
                 'updated_at': product.updated_at.isoformat(),
             })
