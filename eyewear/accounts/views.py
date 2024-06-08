@@ -52,5 +52,3 @@ def login(request):
     return Response({'error': 'Method not allowed'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 
-def x(request):
-    pass
