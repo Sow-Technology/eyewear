@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.contrib.auth import authenticate
 from rest_framework import status
-
+from django.http import HttpResponse
 @api_view(['POST'])
 @csrf_exempt
 def register(request):
@@ -25,6 +25,7 @@ def register(request):
         try:
             user = User.objects.create_user(username=username, email=email, password=password)
             user.save()
+            request.session['username']=username
             return Response({'message': 'Registration successful.'}, status=status.HTTP_201_CREATED)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -51,4 +52,11 @@ def login(request):
     
     return Response({'error': 'Method not allowed'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
+# def set_session(request):
+#     request.session['testname']='Sajag'
+#     return HttpResponse("Set session")
 
+# def get_session(request):
+#     user=request.session.get('testname')
+#     print(f"User name is:{user} ")
+#     return HttpResponse(f"User nsme through session is {user}")

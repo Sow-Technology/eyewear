@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import *
@@ -38,4 +39,12 @@ def product_list(request):
         
         return JsonResponse(product_list, safe=False, status=status.HTTP_200_OK)
     
-    return JsonResponse({'error': 'Method not allowed'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+    return JsonResponse({'error': 'Method not allowed'}, status=status.HTTP_405_METHOD_NOT_ALLOWED) 
+
+
+@api_view(['GET'])
+@csrf_exempt
+
+def set_last_activity(request):
+    request.session['last_activity'] =str(timezone.now())
+    return HttpResponse("Updated last activity")
