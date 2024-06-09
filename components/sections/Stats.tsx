@@ -3,13 +3,6 @@ import React from "react";
 const Stats = () => {
   return (
     <section className="relative text-black">
-      {/* BG Image */}
-      {/* <img
-        src="https://assets.website-files.com/646603af5972c5339c9b35dc/64663a56dbf56a2c0cc7e257_Background%20Image1.svg"
-        alt=""
-        className="absolute -z-10 inline-block h-full w-full object-cover"
-      /> */}
-      {/* Container */}
       <div className="mx-auto w-full max-w-7xl px-5 py-16 md:px-10 md:py-24 lg:py-24">
         {/* Heading Content */}
         <div className="mx-auto mb-8 max-w-3xl text-center md:mb-12 lg:mb-16">

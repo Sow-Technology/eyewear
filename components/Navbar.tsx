@@ -2,7 +2,7 @@
 
 import useCart from "@/lib/hooks/useCart";
 
-import { UserButton, useUser } from "@clerk/nextjs";
+// import { UserButton, useUser } from "@clerk/nextjs";
 import { CircleUserRound, Menu, Search, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import React from "react";
@@ -20,6 +20,8 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+import UserButton from "./UserButton";
+import { dummyUser } from "@/lib/data/products";
 const components: { title: string; href: string; description: string }[] = [
   {
     title: "Alert Dialog",
@@ -62,7 +64,7 @@ const Navbar = () => {
   const pathname = usePathname();
   const router = useRouter();
   // const { user } = useUser();
-  const user = undefined;
+  const user = dummyUser;
   const cart = useCart();
 
   const [dropdownMenu, setDropdownMenu] = useState(false);
@@ -276,14 +278,20 @@ const Navbar = () => {
         {dropdownMenu && (
           <div className="absolute top-12 right-5 flex flex-col gap-4 p-3 rounded-lg border bg-white text-base-bold lg:hidden">
             <NavigationMenu>
-              <NavigationMenuList className="flex-col">
+              <NavigationMenuList className="flex-col overflow-auto">
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger onClick={() => setD1(!d1)}>
+                  <NavigationMenuTrigger
+                    onClick={() => {
+                      setD1(!d1);
+                      setD2(false);
+                      setD3(false);
+                    }}
+                  >
                     Eye Glasses
                   </NavigationMenuTrigger>
                   {d1 && (
                     // <NavigationMenuContent>
-                    <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+                    <ul className="grid gap-3 p-6 w-max lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                       {/* <li className="row-span-3">
                         <NavigationMenuLink asChild>
                           <a
@@ -301,26 +309,32 @@ const Navbar = () => {
                         </NavigationMenuLink>
                       </li> */}
                       <ListItem href="/collections/men" title="Men">
-                        Our In-house designed specially for men
+                        {/* Our In-house designed specially for men */}
                       </ListItem>
                       <ListItem href="/collections/women" title="Women">
                         {" "}
-                        Our In-house designed specially for women
+                        {/* Our In-house designed specially for women */}
                       </ListItem>
                       <ListItem href="/collections/kids" title="Kids">
-                        Our In-house designed specially for kids
+                        {/* Our In-house designed specially for kids */}
                       </ListItem>
                     </ul>
                     // </NavigationMenuContent>
                   )}
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger onClick={() => setD2(!d2)}>
+                  <NavigationMenuTrigger
+                    onClick={() => {
+                      setD1(false);
+                      setD2(!d2);
+                      setD3(false);
+                    }}
+                  >
                     Sunglasses
                   </NavigationMenuTrigger>
                   {/* <NavigationMenuContent className="w-screen relative"> */}
                   {d2 && (
-                    <ul className="grid gap-3 p-6 md:w-[400px]  lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+                    <ul className="grid gap-3 p-6  lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                       {/* <li className="row-span-3">
                         <NavigationMenuLink asChild>
                           <a
@@ -394,11 +408,17 @@ const Navbar = () => {
                   </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger onClick={() => setD3(!d3)}>
+                  <NavigationMenuTrigger
+                    onClick={() => {
+                      setD1(false);
+                      setD2(false);
+                      setD3(!d3);
+                    }}
+                  >
                     Contact Lenses
                   </NavigationMenuTrigger>
                   {d3 && (
-                    <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+                    <ul className="grid gap-3 p-6 lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                       {/* <li className="row-span-3">
                         <NavigationMenuLink asChild>
                           <a
@@ -415,19 +435,17 @@ const Navbar = () => {
                           </a>
                         </NavigationMenuLink>
                       </li> */}
-                      <ListItem href="/collections/men" title="Alcon">
-                        Our In-house designed specially for men
-                      </ListItem>
+                      <ListItem
+                        href="/collections/men"
+                        title="Alcon"
+                      ></ListItem>
                       <ListItem href="/collections/women" title="Bousch & Lomb">
                         {" "}
-                        Our In-house designed specially for women
                       </ListItem>
                       <ListItem
                         href="/collections/kids"
                         title="Jonson & Jonson"
-                      >
-                        Our In-house designed specially for kids
-                      </ListItem>
+                      ></ListItem>
                     </ul>
                   )}
                 </NavigationMenuItem>
@@ -459,7 +477,7 @@ const Navbar = () => {
         )}
 
         {user ? (
-          <UserButton afterSignOutUrl="/sign-in" />
+          <UserButton user={dummyUser} />
         ) : (
           <Link href="/sign-in">
             <CircleUserRound />

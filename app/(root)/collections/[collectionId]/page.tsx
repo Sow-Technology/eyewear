@@ -1,4 +1,5 @@
 import ProductCard from "@/components/ProductCard";
+import { Card, CardContent } from "@/components/ui/card";
 import { getCollectionDetails } from "@/lib/actions/actions";
 import Image from "next/image";
 import React from "react";
@@ -19,11 +20,23 @@ const CollectionDetails = async ({
         alt="collection"
         className="w-full h-[400px] object-cover rounded-xl"
       />
-      <p className="text-heading3-bold text-grey-2">{collectionDetails.title}</p>
-      <p className="text-body-normal text-grey-2 text-center max-w-[900px]">{collectionDetails.description}</p>
+      <p className="text-heading3-bold text-grey-2">
+        {collectionDetails.title}
+      </p>
+      <p className="text-body-normal text-grey-2 text-center max-w-[900px]">
+        {collectionDetails.description}
+      </p>
       <div className="flex flex-wrap gap-16 justify-center">
-        {collectionDetails.products.map((product: ProductType) => (
-          <ProductCard key={product._id} product={product} />
+        {collectionDetails.products.map((product: ProductType, index) => (
+          <div key={index} className="max-w-xs">
+            <div className="p-1">
+              <Card>
+                <CardContent className="flex aspect-square items-center justify-center p-6">
+                  <ProductCard key={product._id} product={product} />
+                </CardContent>
+              </Card>
+            </div>
+          </div>
         ))}
       </div>
     </div>
@@ -33,4 +46,3 @@ const CollectionDetails = async ({
 export default CollectionDetails;
 
 export const dynamic = "force-dynamic";
-

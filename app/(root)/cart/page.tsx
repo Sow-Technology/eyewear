@@ -1,5 +1,6 @@
 "use client";
 
+import { dummyUser } from "@/lib/data/products";
 import useCart from "@/lib/hooks/useCart";
 
 import { useUser } from "@clerk/nextjs";
@@ -9,7 +10,8 @@ import { useRouter } from "next/navigation";
 
 const Cart = () => {
   const router = useRouter();
-  const { user } = useUser();
+  // const { user } = useUser();
+  const user = dummyUser;
   const cart = useCart();
 
   const total = cart.cartItems.reduce(
@@ -19,9 +21,9 @@ const Cart = () => {
   const totalRounded = parseFloat(total.toFixed(2));
 
   const customer = {
-    clerkId: user?.id,
-    email: user?.emailAddresses[0].emailAddress,
-    name: user?.fullName,
+    // clerkId: user?.id,
+    email: user?.email,
+    name: user?.firstName,
   };
 
   const handleCheckout = async () => {

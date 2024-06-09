@@ -78,3 +78,19 @@ export const products: ProductType[] = [
     updatedAt: "2024-01-19T10:00:00Z",
   },
 ];
+export const dummyUser: UserType = {
+  email: "example@google.com",
+  firstName: "Example",
+  lastName: "User",
+  wishlist: [],
+  username: "123",
+  createdAt: "2024-01-15T10:00:00Z",
+  updatedAt: "2024-01-15T10:00:00Z",
+};
+export const dummyCollection: CollectionType = {
+  _id: "80001",
+  title: "Men",
+  image: "/images/banners/1.png",
+  products: products,
+  description: "This is the collection description",
+};

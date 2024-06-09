@@ -17,52 +17,32 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { PasswordInput } from "@/components/ui/password-input";
-import { signUp } from "../../actions";
+import { login, signUp } from "../../actions";
 import Link from "next/link";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+
 const formSchema = z.object({
   email: z.string().email(),
   password: z
     .string()
     .min(8, { message: "Password must be atleast 8 characters" }),
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-  firstName: z.string().min(2, {
-    message: "First Name must be at least 2 characters.",
-  }),
-  lastName: z.string().min(2, {
-    message: "Last Name must be at least 2 characters.",
-  }),
-  marketingAccept: z.boolean(),
 });
 
 const Page = () => {
-  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    toast.loading("Submitting...");
+    toast.loading("logging in...");
     try {
-      const response = await signUp(values);
+      const response = await login(values);
       toast.dismiss();
-      console.log(response);
-      if (response === 401) {
-        toast.error("Username already exists!");
-      } else if (response === 402) {
-        toast.error("Email already exists!");
-      } else {
-        toast.success("Signup success!");
-        router.push("/login");
-      }
+      toast.success("Login success!");
     } catch (err) {
-      console.log(err);
       toast.dismiss();
-      toast.error("Unable to signup, try again later!");
-    } finally {
+      toast.error("Invalid Credentials");
     }
+    console.log(values);
   };
   return (
     <section className="bg-white">
@@ -106,38 +86,7 @@ const Page = () => {
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="mt-8 grid grid-cols-6 gap-6"
               >
-                <div className="col-span-6 sm:col-span-3">
-                  <FormField
-                    control={form.control}
-                    name="firstName"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>First Name</FormLabel>
-                        <FormControl>
-                          <Input placeholder="John doe" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                <div className="col-span-6 sm:col-span-3">
-                  <FormField
-                    control={form.control}
-                    name="lastName"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Last Name</FormLabel>
-                        <FormControl>
-                          <Input placeholder="John doe" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                <div className="col-span-6">
+                {/* <div className="col-span-6">
                   {" "}
                   <FormField
                     control={form.control}
@@ -153,7 +102,7 @@ const Page = () => {
                       </FormItem>
                     )}
                   />
-                </div>
+                </div> */}
                 <div className="col-span-6">
                   <FormField
                     control={form.control}
@@ -190,13 +139,12 @@ const Page = () => {
                   />
                 </div>
 
-                <div className="col-span-6">
+                {/* <div className="col-span-6">
                   <FormField
                     control={form.control}
                     name="marketingAccept"
                     render={({ field }) => (
                       <FormItem className="flex items-center">
-                        {/* <FormLabel>Password</FormLabel> */}
                         <FormControl>
                           <Checkbox
                             checked={field.value}
@@ -212,32 +160,16 @@ const Page = () => {
                       </FormItem>
                     )}
                   />
-                </div>
-
-                <div className="col-span-6">
-                  <p className="text-sm text-gray-500">
-                    By creating an account, you agree to our
-                    <a href="#" className="text-gray-700 underline">
-                      {" "}
-                      terms and conditions{" "}
-                    </a>
-                    and
-                    <a href="#" className="text-gray-700 underline">
-                      {" "}
-                      privacy policy{" "}
-                    </a>
-                    .
-                  </p>
-                </div>
+                </div> */}
 
                 <div className="col-span-6 sm:flex sm:items-center sm:gap-4">
-                  <Button className="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12  text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500">
-                    Create an account
+                  <Button className="  rounded-md border border-blue-600 bg-blue-600 px-12  text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500 ">
+                    Log in
                   </Button>
                   <p className="mt-4 text-sm text-gray-500 sm:mt-0">
-                    Already have an account?
-                    <Link href="/login" className="text-gray-700 underline">
-                      Log in
+                    Didn't have an account?
+                    <Link href="/sign-up" className="text-gray-700 underline">
+                      Sign up
                     </Link>
                     .
                   </p>

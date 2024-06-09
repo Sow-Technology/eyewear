@@ -1,9 +1,10 @@
 type CollectionType = {
   _id: string;
   title: string;
-  products: number;
+  products: ProductType[];
   image: string;
   starting?: string;
+  description?: string;
 };
 
 type ProductType = {
@@ -23,8 +24,12 @@ type ProductType = {
 };
 
 type UserType = {
-  clerkId: string;
-  wishlist: [string];
+  firstName?: string;
+  lastName?: string;
+  email: string;
+  username: string;
+  wishlist: string[];
+  avatar?: string;
   createdAt: string;
   updatedAt: string;
 };
