@@ -41,7 +41,8 @@ const Collections = async () => {
         <p className="text-body-bold">No Category found</p>
       ) : (
         <div className="flex flex-wrap items-center justify-center gap-8">
-          {collections.map((collection: CollectionType) => (
+          {collections.map((collection: any) => (
+            //TODO: TYPE ERROR TO BE FIXED
             <Link
               href={`/collections/${collection._id}`}
               key={collection._id}
