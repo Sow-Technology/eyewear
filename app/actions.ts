@@ -32,7 +32,7 @@ export const login = async (data: { email: string; password: string }) => {
   }
 };
 
-export const checkUserLoggedIn = async (req) => {
-  const cookies = req;
-  console.log(cookies);
-};
+// export const checkUserLoggedIn = async (req) => {
+//   const cookies = req;
+//   console.log(cookies);
+// };
