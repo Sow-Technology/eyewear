@@ -48,3 +48,4 @@ def product_list(request):
 def set_last_activity(request):
     request.session['last_activity'] =str(timezone.now())
     return HttpResponse("Updated last activity")
+
