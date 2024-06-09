@@ -60,19 +60,11 @@ def user_list(request):
     if request.method == 'GET':
         users = User.objects.all()
         
-        # Convert product instances to a list of dictionaries
         user_list = []
         for user in users:
             user_list.append({
                 'username': user.username,
                 'email': user.email,
-                # 'category': product.category.category_name,  
-                # 'price': product.price,
-                # 'product_description': product.product_desription,
-                # 'color_variant': list(product.color_variant.values_list('color_name', flat=True)),  
-                # 'size_variant': list(product.size_variant.values_list('size_name', flat=True)),  
-                # 'created_at': product.created_at.isoformat(),
-                # 'updated_at': product.updated_at.isoformat(),
             })
         
         return JsonResponse(user_list, safe=False, status=status.HTTP_200_OK)
