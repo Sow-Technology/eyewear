@@ -5,6 +5,10 @@ from rest_framework.response import Response
 from django.contrib.auth import authenticate
 from rest_framework import status
 from django.contrib.auth.models import User
+from rest_framework.decorators import api_view
+from django.http import JsonResponse
+
+
 
 @method_decorator(csrf_exempt, name='dispatch')
 class RegisterView(APIView):
@@ -48,3 +52,29 @@ class LoginView(APIView):
                 return Response({'error': 'Invalid credentials. Please try again.'}, status=status.HTTP_401_UNAUTHORIZED)
         except User.DoesNotExist:
             return Response({'error': 'Invalid credentials. Please try again.'}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+@api_view(['GET'])
+@csrf_exempt
+def user_list(request):
+    if request.method == 'GET':
+        users = User.objects.all()
+        
+        # Convert product instances to a list of dictionaries
+        user_list = []
+        for user in users:
+            user_list.append({
+                'username': user.username,
+                'email': user.email,
+                # 'category': product.category.category_name,  
+                # 'price': product.price,
+                # 'product_description': product.product_desription,
+                # 'color_variant': list(product.color_variant.values_list('color_name', flat=True)),  
+                # 'size_variant': list(product.size_variant.values_list('size_name', flat=True)),  
+                # 'created_at': product.created_at.isoformat(),
+                # 'updated_at': product.updated_at.isoformat(),
+            })
+        
+        return JsonResponse(user_list, safe=False, status=status.HTTP_200_OK)
+    
+    return JsonResponse({'error': 'Method not allowed'}, status=status.HTTP_405_METHOD_NOT_ALLOWED) 
