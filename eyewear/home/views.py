@@ -49,3 +49,40 @@ def set_last_activity(request):
     request.session['last_activity'] =str(timezone.now())
     return HttpResponse("Updated last activity")
 
+
+@api_view(['GET'])
+@csrf_exempt
+def search_products(request):
+    print("bkfbbfbkfbk")
+    if request.method == 'GET':
+        print("bkfbbfbkfbk")
+        query = request.GET.get('q', '')
+        print(query)
+        
+        products = Product.objects.filter(
+            product_name__icontains=query
+        ) | Product.objects.filter(
+            category__category_name__icontains=query
+        ) | Product.objects.filter(
+            product_desription__icontains=query
+        )
+
+        print(products)
+        
+        product_list = []
+        for product in products:
+            product_list.append({
+                'product_name': product.product_name,
+                'slug': product.slug,
+                'category': product.category.category_name,
+                'price': product.price,
+                'product_description': product.product_desription,
+                'color_variant': list(product.color_variant.values_list('color_name', flat=True)),
+                'size_variant': list(product.size_variant.values_list('size_name', flat=True)),
+                'created_at': product.created_at.isoformat(),
+                'updated_at': product.updated_at.isoformat(),
+            })
+        
+        return JsonResponse(product_list, safe=False, status=status.HTTP_200_OK)
+    
+    return JsonResponse({'error': 'Method not allowed'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
