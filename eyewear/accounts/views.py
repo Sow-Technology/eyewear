@@ -29,6 +29,7 @@ class RegisterView(APIView):
         try:
             user = User.objects.create_user(username=username, email=email, password=password)
             user.save()
+            request.session['username']=username
             return Response({'message': 'Registration successful.'}, status=status.HTTP_201_CREATED)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -47,7 +48,10 @@ class LoginView(APIView):
             user = authenticate(request, username=user.username, password=password)
             
             if user is not None:
-                return Response({'message': 'Login successful.'}, status=status.HTTP_200_OK)
+                request.session['username']=user.username
+                return Response({'message': 'Login successful.'}, status=status.HTTP_200_OK) 
+            
+            
             else:
                 return Response({'error': 'Invalid credentials. Please try again.'}, status=status.HTTP_401_UNAUTHORIZED)
         except User.DoesNotExist:
