@@ -41,6 +41,10 @@ INSTALLED_APPS = [
     'rest_framework',
     'home',
     'accounts',
+    'orders',
+    'cart',
+    'user_address'
+
 ]
 
 MIDDLEWARE = [

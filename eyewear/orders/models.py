@@ -7,6 +7,7 @@ class orders(models.Model):
     product=models.ForeignKey(Product,on_delete=models.SET_NULL,related_name='products',null=True)
     quantity=models.IntegerField()
     status=models.CharField(max_length=255)
+    delivery_address=models.TextField(default="sample address")
 
     def __str__(self):
         state=f'Username is:{self.username}'

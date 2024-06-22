@@ -16,7 +16,7 @@ def add_to_cart(request):
        
         cart=Cart.objects.create(username=user_name,product=product,quantity=quantity)
         cart.save()
-        cart=Cart.objects.all()
+        cart=Cart.objects.filter(username=user_name)
         cart_items=[]
         for c in cart:
             cart_items.append(
@@ -32,3 +32,45 @@ def add_to_cart(request):
             )
         print(cart_items)
         return Response(cart_items, status=200)
+@api_view(['GET'])
+@csrf_exempt
+def view_cart(request):
+   if request.method=="GET":
+    username=request.session.get('username')
+    cart=Cart.objects.filter(username=username)
+    cart_items=[]
+    for c in cart:
+        cart_items.append(
+                {
+                    "username":c.username,
+                    "product_name":c.product.product_name,
+                    "slug":c.product.slug,
+                    "category":c.product.category.category_name,
+                    "price":c.product.price,
+                    "quantity":c.quantity,
+
+                }
+            )
+    print(cart_items)
+    return Response(cart_items, status=200)
+
+@api_view(['GET'])
+@csrf_exempt   
+def view_full_carts(request):
+   if request.method=="GET":
+    cart=Cart.objects.all()
+    cart_items=[]
+    for c in cart:
+        cart_items.append(
+                {
+                    "username":c.username,
+                    "product_name":c.product.product_name,
+                    "slug":c.product.slug,
+                    "category":c.product.category.category_name,
+                    "price":c.product.price,
+                    "quantity":c.quantity,
+
+                }
+            )
+    print(cart_items)
+    return Response(cart_items, status=200)

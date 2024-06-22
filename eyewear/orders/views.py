@@ -14,7 +14,7 @@ from .models import *
 def place_order(request):
      if request.method=="GET":
       username=request.session.get('username')
-
+      address=request.session.get('address')
       cart_items=Cart.objects.filter(username=username)
       def generate_random_id(length=10):
         return ''.join(secrets.choice(string.ascii_letters + string.digits) for _ in range(length))
@@ -23,7 +23,7 @@ def place_order(request):
          product=items.product
          order_id=random_id
          quantity=items.quantity
-         new_item=orders.objects.create(username=username,order_id=order_id,product=items.product,quantity=quantity,status="order placed")
+         new_item=orders.objects.create(username=username,order_id=order_id,product=items.product,quantity=quantity,status="order placed",address=address)
          new_item.save()
          items.delete()
       return HttpResponse("Order placed successfully")
@@ -84,4 +84,4 @@ def change_order_status(request):
          items.status=new_status
          items.save()
       
-      return HttpResponse("successfully updated order status")
+      return HttpResponse("successfully updated order status") 
