@@ -17,7 +17,7 @@ def show_address(request):
         addresses.append(
             {'address':a.address}
         )
-    return JsonResponse(addresses,status=200)
+    return JsonResponse(addresses,safe=False,status=200)
 
 @api_view(['POST'])
 @csrf_exempt
@@ -26,7 +26,9 @@ def select_address(request):
     add=request.data.get('address')
     request.session['address']=add
     return HttpResponse('success',status=200)
-   
+
+@api_view(['POST'])
+@csrf_exempt 
 def add_address(request):
    if request.method=='POST':
       username=request.session.get('username')

@@ -69,6 +69,7 @@ def user_list(request):
             user_list.append({
                 'username': user.username,
                 'email': user.email,
+                'session_user':request.session.get('username')
             })
         
         return JsonResponse(user_list, safe=False, status=status.HTTP_200_OK)

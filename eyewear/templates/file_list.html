@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Uploaded Files</title>
+</head>
+<body>
+    <h1>Uploaded Files</h1>
+    <ul>
+        {% for document in documents %}
+        <li><a href="{{ document.document.url }}">{{ document.description }}</a></li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'upload_file' %}">Upload another file</a>
+</body>
+</html>

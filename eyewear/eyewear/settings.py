@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'accounts',
     'cart',
     'orders',
-    'user_address'
+    'user_address',
+    'complaints',
 ]
 
 MIDDLEWARE = [
@@ -62,7 +63,7 @@ ROOT_URLCONF = 'eyewear.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -129,11 +130,11 @@ STATIC_URL = '/static/'
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
 
-STATICFILES_DIR = {
+STATICFILES_DIR = [
     os.path.join(BASE_DIR , "public/static")
-}
+]
 
-MEDIA_ROOT =  os.path.join(BASE_DIR, 'public/static') 
+MEDIA_ROOT =  os.path.join(BASE_DIR, 'media') 
 MEDIA_URL = '/media/'
 
 
