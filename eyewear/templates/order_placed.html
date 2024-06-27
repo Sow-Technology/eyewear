@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div style="height:300px;width:500px;border: 2px solid black">
+        <p style="font-weight:500;">
+           Dear {{user_name}},
+           Thanks for placing order with us. Your order id is {{order_id}}
+        </p>
+    </div>
+    <br>
+    <div>
+      {% for products in product_name %}
+        <p style="font-weight:500;">
+          {{products}}
+        </p>
+        <br>
+       {% endfor %} 
+
+       <h3>
+        Your order status is:{{status}}
+       </h3>
+    </div>
+</body>
+</html>

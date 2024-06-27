@@ -52,6 +52,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'accounts.session_middlewear.SessionTimeoutMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -142,3 +143,11 @@ MEDIA_URL = '/media/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # Your email service provider's SMTP server
+EMAIL_PORT = 587  # Port for TLS
+EMAIL_USE_TLS = True  # Use TLS
+EMAIL_HOST_USER = 'agrawalsiddhi836@gmail.com'  # Your email address
+EMAIL_HOST_PASSWORD = 'xtedpcbeeehfjcoc'  # Your email password
+DEFAULT_FROM_EMAIL = 'agrawalsiddhi836@gmail.com'  # Default from email address
