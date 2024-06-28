@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'orders',
     'user_address',
     'complaints',
+    'otp',
 ]
 
 MIDDLEWARE = [

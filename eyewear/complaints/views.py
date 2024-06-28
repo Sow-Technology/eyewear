@@ -5,6 +5,9 @@ from .models import Document
 from django.contrib.auth.models import User
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
+from rest_framework.decorators import api_view
+from django.views.decorators.csrf import csrf_exempt
+
 def upload_file(request):
     if request.method == 'POST':
         form = DocumentForm(request.POST, request.FILES)
@@ -36,5 +39,7 @@ def upload_file(request):
     return render(request, 'complaint.html', {'form': form})
 
 def file_list(request):
-    documents = Document.objects.all()
-    return render(request, 'file_list.html', {'documents': documents})
+    if request.method=='POST':
+     order_id=request.data.get('order_id')
+     documents = Document.objects.filter(order_id=order_id)
+     return render(request, 'file_list.html', {'documents': documents})

@@ -7,9 +7,10 @@ from rest_framework import status
 from django.contrib.auth.models import User
 from rest_framework.decorators import api_view
 from django.http import JsonResponse
-
-
-
+from otp.models import *
+import random
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
 @method_decorator(csrf_exempt, name='dispatch')
 class RegisterView(APIView):
     def post(self, request):
@@ -30,6 +31,20 @@ class RegisterView(APIView):
             user = User.objects.create_user(username=username, email=email, password=password)
             user.save()
             request.session['username']=username
+            def generate_otp(self):
+             self.otp = str(random.randint(100000, 999999))
+            otp=generate_otp()
+            new_otp=Otp.objects.create(username=username,otp=otp,status="active")
+            new_otp.save()
+            reciever_mail=[user.email]
+            sender_mail="agrawalsiddhi836@gmail.com"
+            subject="Otp for verification"
+            context={
+                "otp":otp
+            }
+            mail=render_to_string('otp_verification.html',context)
+            email = EmailMessage(subject, mail, sender_mail, reciever_mail)
+            email.content_subtype = 'html'
             return Response({'message': 'Registration successful.'}, status=status.HTTP_201_CREATED)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -75,3 +90,15 @@ def user_list(request):
         return JsonResponse(user_list, safe=False, status=status.HTTP_200_OK)
     
     return JsonResponse({'error': 'Method not allowed'}, status=status.HTTP_405_METHOD_NOT_ALLOWED) 
+
+@api_view(['POST'])
+@csrf_exempt
+def verify_opt(request):
+    if request.method == 'POST':
+     username=request.session.get('username')
+     otp=request.data.get('otp')
+     history=Otp.objects.filter(otp=otp,status="active")[0]
+     stored_otp=history.otp
+     if(otp==stored_otp):
+         history.status="verified"
+    return HttpResponse('otp verified',status=200)
