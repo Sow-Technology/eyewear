@@ -89,7 +89,19 @@ def cancel_orders(request):
        order_items=orders.objects.filter(username=username,order_id=order_id)
        for items in order_items:
           items.delete()
-         
+       context={
+         "user_name":username, 
+         "order_id":order_id,
+         "new_status":"Cancelled"
+      }
+       mail=render_to_string('order_status.html', context)
+       subject=f"Your order has been cancelled for order {order_id}"
+       from_email="agrawalsiddhi836@gmail.com"
+       email_address=User.objects.get(username=username)
+       recipient_email=[email_address.email]
+       email = EmailMessage(subject, mail, from_email, recipient_email)
+       email.content_subtype = 'html'
+       email.send()
        return JsonResponse({"message":"items deleted successfully"},status=200)
 @api_view(['POST'])
 @csrf_exempt   
@@ -102,5 +114,17 @@ def change_order_status(request):
       for items in order_items:
          items.status=new_status
          items.save()
-      
+      context={
+         "user_name":username,
+         "order_id":order_id,
+         "new_status":new_status
+      }
+      mail=render_to_string('order_status.html', context)
+      subject=f"Your order status for order {order_id}"
+      from_email="agrawalsiddhi836@gmail.com"
+      email_address=User.objects.get(username=username)
+      recipient_email=[email_address.email]
+      email = EmailMessage(subject, mail, from_email, recipient_email)
+      email.content_subtype = 'html'
+      email.send()
       return HttpResponse("successfully updated order status") 
